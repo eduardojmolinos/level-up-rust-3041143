@@ -1,7 +1,24 @@
 fn unique(a: Vec<i32>) -> Vec<i32> {
-    todo!()
+    let mut vect: Vec<i32>;
+    vect = vec![];
+    if a.is_empty() {
+        return vect;
+    } else {
+        for (b) in &a {
+            let aux: i32 = *b;
+            let mut cont = 0;
+            for (c) in &vect {
+                if *c == aux {
+                    cont = cont + 1;
+                }
+            }
+            if cont < 1 {
+                vect.push(*b);
+            }
+        }
+        return vect;
+    }
 }
-
 // advanced 1: use generic types
 // fn unique(a: Vec<T>) -> Vec<T> {
 //     todo!();
