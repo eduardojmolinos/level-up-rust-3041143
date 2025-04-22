@@ -1,5 +1,10 @@
 fn weeks_between(a: &str, b: &str) -> i32 {
-    todo!()
+    let parts1: Vec<&str> = a.split('-').collect();
+    let parts2: Vec<&str> = b.split('-').collect();
+
+    let day1 = parts1[2].parse::<i32>();
+    let day2 = parts2[2].parse::<i32>();
+    return (day2.unwrap() - day1.unwrap()) / 7;
 }
 
 fn main() {
