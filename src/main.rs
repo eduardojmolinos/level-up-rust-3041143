@@ -5,11 +5,45 @@ struct Isbn {
     digits: Vec<u8>,
 }
 
+#[derive(Debug)]
+enum InvalidIsbn {
+    TooLong,
+    TooShort,
+    InvalidCharacter(usize,char),
+    FailedChecksum,
+}
+
 impl FromStr for Isbn {
-    type Err = (); // TODO: replace with appropriate type
+    type Err = InvalidIsbn; // TODO: replace with appropriate type
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        todo!();        
+        let mut digitsa = vec![];
+        for (i,c) in s.char_indices() {
+            match c {
+                '0'..='9' => digitsa.push(c.to_digit(10).unwrap() as u8),
+                '-' => continue,
+                _ => return Err(InvalidIsbn::InvalidCharacter(i,c)), 
+            }
+        }
+
+        if digitsa.len() < 13 {
+            return Err(InvalidIsbn::TooShort);
+        }
+        if digitsa.len() > 13 {
+            return Err(InvalidIsbn::TooLong);
+        }
+
+        if digitsa[12] != calculate_check_digit(&digitsa) {
+            return Err(InvalidIsbn::FailedChecksum);
+        }
+
+        Ok(Isbn{
+            raw: s.to_string(),
+            digits: digitsa,
+        })
+
+        
+        
     }
 }
 
@@ -21,7 +55,25 @@ impl std::fmt::Display for Isbn {
 
 // https://en.wikipedia.org/wiki/International_Standard_Book_Number#ISBN-13_check_digit_calculation
 fn calculate_check_digit(digits: &[u8]) -> u8 {
-    todo!()
+    let mut pos = 0;
+    let mut digit = 0;
+    for i in digits.iter() {
+        if pos % 2 == 0 {
+            digit = digit + i;
+        } else {
+            digit = digit + (i* 3);
+        }
+        pos = pos + 1;
+    }
+
+    if digit % 10 == 0
+    {
+        return 0;
+    }
+    else {
+        return 10 - (digit % 10);    
+    }
+    
 }
 
 fn main() {
