@@ -19,11 +19,11 @@ impl Temperature {
     }
 
     fn to_celsius(&self) -> f32 {
-        todo!();
+        (self.degrees - 32.0) / 1.8
     }
 
     fn to_fahrenheit(&self) -> f32 {
-        todo!();
+        (self.degrees * 1.8) + 32.0
     }
 }
 
