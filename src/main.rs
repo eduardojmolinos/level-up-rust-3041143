@@ -1,5 +1,14 @@
 fn sum_with_missing(numbers: Vec<Option<i32>>) -> i32 {
-    todo!();
+    let mut sum = 0;
+    for i in numbers{
+        if !i.is_none()
+        {
+            sum=sum+i.unwrap();
+        }
+    }
+
+    return sum;
+    
 }
 
 fn main() {
