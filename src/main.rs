@@ -30,14 +30,20 @@ impl Hand {
     }
 
     fn value(&self) -> usize {
-        let mut total=0;
+        let mut total = 0;
         for i in &self.cards {
-            match i{
-                Card::Ace => if (total+11)>21 {total= total +1 } else { total = total + 11},
-                Card::Two => total = total+2,
-                Card::Three => total = total +3,
-                Card::Four => total = total +4,
-                Card::Five => total = total +5,
+            match i {
+                Card::Ace => {
+                    if (total + 11) > 21 {
+                        total = total + 1
+                    } else {
+                        total = total + 11
+                    }
+                }
+                Card::Two => total = total + 2,
+                Card::Three => total = total + 3,
+                Card::Four => total = total + 4,
+                Card::Five => total = total + 5,
                 Card::Six => total = total + 6,
                 Card::Seven => total = total + 7,
                 Card::Eight => total = total + 8,
