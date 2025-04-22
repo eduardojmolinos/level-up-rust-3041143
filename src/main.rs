@@ -1,3 +1,4 @@
+use std::fs;
 use std::path;
 
 trait FileMetadata {
@@ -10,20 +11,40 @@ trait FileMetadata {
 
 impl FileMetadata for path::Path {
     fn is_readable(&self) -> bool {
-        todo!();
+        if self.exists() {
+            match fs::metadata(self) {
+                Ok(metadata) => {
+                    return metadata.permissions().readonly();
+                }
+                Err(e) => println!("Error: {}", e),
+            }
+            return false;
+        } else {
+            return false;
+        }
     }
 
     fn is_writeable(&self) -> bool {
-        todo!();
+        if self.exists() {
+            match fs::metadata(self) {
+                Ok(metadata) => {
+                    return !metadata.permissions().readonly();
+                }
+                Err(e) => println!("Error: {}", e),
+            }
+            return false;
+        } else {
+            return false;
+        }
     }
 
     fn exists(&self) -> bool {
-        todo!();
+        return self.is_file();
     }
 }
 
 fn main() {
-    // 
+    //
 }
 
 #[test]
